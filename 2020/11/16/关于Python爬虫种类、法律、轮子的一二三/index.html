@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="UTF-8">
+    
+    <link rel="apple-touch-icon" sizes="76x76" href="/null">
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <title>关于Python爬虫种类、法律、轮子的一二三 - 流沙</title>
+    
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    
+    <meta name="description" content="">
+    <meta name="author" content="saermart">
+    <meta name="keywords" content="">
+    <style>
+
+
+    
+    :root{
+        --shadow-color: rgba(0,0,0,0.2);
+        --sec-shadow: rgba(0,0,0,0.03);
+        --shadow-hover-color: rgba(0,0,0,0.28);
+        --first-text-color: #475b6d;
+        --second-text-color: #37475b;
+        --third-text-color: #858585;
+        --default-text-color: #505050;
+        --default-link-color: #007bff;
+        --link-color: #000000;
+        --second-link-color: #4F9BFA;
+        --code-color:rgba(27,31,35,.05);
+        --post-bkg-color: #fff;
+        --page-bkg-color: #f2f5f8;
+        --nav-a-hover-color: #3498db;
+        --post-sec-text-color: #718096;
+        --sec-bkg: #f2f5f8;
+        --color-mode: 'light';
+        --bkg-h: rgba(255,255,255,0.6);
+        --bkg-m: #e1e4e8;
+        --home-title-color: #4169E1;
+        --shadow: 0 4px 10px rgba(0,2,4,0.06),0 0 1px rgba(0,2,4,0.11);
+        --hr-color: #ddd;
+        --bg-t: #f4f4f4;
+        --nav-bkg: rgba(255,255,255,0.6);
+    }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-mode: 'dark';
+  }
+
+  :root:not([data-theme]) {
+    --first-text-color: hsla(0,0%,100%,0.92);
+    --second-text-color: hsla(0,0%,100%,0.86);
+    --third-text-color: #a7a9ad;
+    --default-text-color: #505050;
+    --default-link-color: #1589e9;
+    --link-color: #000000;
+    --second-link-color: #30a9de;
+    --post-bkg-color: #252d38;
+    --page-bkg-color: #181c27;
+    --nav-a-hover-color: #3498db;
+    --post-sec-text-color: #a7a9ad;
+    --sec-bkg: #364151;
+    --bkg-h: rgba(255,255,255,0.2);
+    --bkg-m: rgba(255,255,255,0.1);
+    --home-title-color: rgb(226, 82, 90);
+    --code-color:#3e4b5e;
+    --shadow: none;
+    --hr-color: #718096;
+    --bg-t: #364151;
+    --nav-bkg: rgba(13,17,23,0.6);
+  }
+}
+
+[data-theme='dark'] {
+    --shadow-color: rgba(0,0,0,0.2);
+    --shadow-hover-color: rgba(0,0,0,0.28);
+    --first-text-color: hsla(0,0%,100%,0.92);
+    --second-text-color: hsla(0,0%,100%,0.86);
+    --third-text-color: #a7a9ad;
+    --default-text-color: #505050;
+    --default-link-color: #1589e9;
+    --link-color: #000000;
+    --second-link-color: #30a9de;
+    --post-bkg-color: #252d38;
+    --page-bkg-color: #181c27;
+    --nav-a-hover-color: #3498db;
+    --post-sec-text-color: #a7a9ad;
+    --sec-bkg: #364151;
+    --bkg-h: rgba(255,255,255,0.2);
+    --bkg-m: rgba(255,255,255,0.1);
+    --home-title-color: rgb(226, 82, 90);
+    --code-color:#3e4b5e;
+    --shadow: none;
+    --hr-color: #718096;
+    --bg-t: #364151;
+    --nav-bkg: rgba(13,17,23,0.6);
+}
+
+</style>
+
+
+
+<style>
+#page-main,footer,.p-btn{
+    display: none;
+}
+html,body{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: overlay;
+}
+body{
+    background-color: var(--page-bkg-color);
+    color: var(--second-text-color);
+    overflow-y: scroll;
+}
+a {
+    color: var(--default-link-color);
+    text-decoration: none;
+    background-color: transparent;
+}
+a:hover{
+    color: var(--second-link-color);
+}
+.main-content,.post-card-main{
+    margin: 30px;
+}
+
+
+
+@media (max-width: 410px){
+    .post-card-main{
+        max-width: 350px!important;
+    }
+}
+
+@media (max-width: 980px){
+    .post-card-main{
+        max-width: 520px!important;
+    }
+}
+
+
+@media (min-width: 780px){ 
+    h3{
+        font-size: 1.5rem;
+        line-height: 1.5em;
+    }
+}
+@media (min-width: 1280px){ 
+    h3{
+        font-size: 1.7rem;
+        line-height: 1.5em;
+    }
+}
+@media (min-width: 2096px){ 
+    h3{
+        font-size: 1.8rem;
+        line-height: 1.5em;
+    }
+}
+
+.text-center{
+    text-align: center!important;
+}
+.middle-center{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    height: 100%;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    height: 54px;
+    padding: 0 1.25rem;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    border-bottom: 1px solid var(--bkg-m);
+    background-color: var(--nav-bkg);
+}
+header .header__left, header .header__right {
+    display: flex;
+    align-items: center;
+    font-family: rubik,sans-serif,Varela Round;
+}
+header .header__left .logo__text {
+    font-size: 18px;
+    font-weight: 450;
+    padding: 14.5px 10px;
+    border-radius: 5px;
+    color: var(--second-text-color);
+}
+header .header__right .navbar__menus {
+    height: 54px;
+    padding: 0 0 0 15px;
+}
+header .header__right .button {
+    color: var(--second-text-color);
+}
+header .header__right .navbar__menus .navbar-menu {
+    display: inline-block;
+    align-items: center;
+    height: 54px;
+    padding: 0 10px;
+    font-size: 16px;
+    line-height: 54px;
+}
+header .header__right .dropdown-icon {
+    display: none;
+    height: 54px;
+    padding: 15px 10px;
+    border: 0;
+    background-color: transparent;
+}
+header .header__right .dropdown-menus {
+    line-height: 2rem;
+    animation: slide-in .15s ease 1;
+    display: none;
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    top: calc(54px + 10px);
+    border-radius: 6px;
+    padding: 24px;
+    background-color: var(--page-bkg-color);
+    border: 1px solid var(--bkg-m);
+    z-index: 9999;
+    justify-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+header .header__right #btn-search, header .header__right #btn-toggle-dark{
+    display: inline-block;
+    padding:  18px 10px;
+    height: 25px;
+}
+header .header__right #btn-dropdown{
+  display: inline-block;
+  padding:  13.5px 0;
+}
+header .header__right .dropdown-menus .dropdown-menu {
+    padding: 10px;
+    color: var(--second-text-color);
+}
+@media screen and (max-width: 764px){
+.navbar__menus {
+    display: none!important;
+}
+.dropdown-icon {
+    display: inline-block!important;
+}
+}
+.p-btn{
+    position: fixed;
+    bottom: 1.2rem;
+    right: 1.2rem;
+    contain: layout;
+}
+.toc-btn,.click-btn{
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    align-items: center;
+    margin-top: .5rem;
+    font-size: .75rem;
+    background-color: var(--sec-bkg);
+    display: block;
+    padding: 0.9rem;
+    box-shadow: 0 0.3rem 0.6rem rgba(48,55,66,.15);
+    border: none;
+    border-radius: 0.5rem;
+    line-height: 1;
+    color: var(--first-text-color);
+}
+.toc-link{
+    color: var(--second-text-color);
+}
+
+#css-loading h3{
+    font-weight: 500;
+    font-size: 1.4rem;
+    text-align: center;
+    position: fixed;
+    top: 200px;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    animation: cssLoad;
+    animation-delay: 0.3s;
+    -webkit-animation: cssLoad;
+    -webkit-animation-delay: 0.3s;
+}
+@keyframes cssLoad {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.9;
+    }
+}
+
+
+.memorial {
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+    filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1); filter:gray;
+}
+
+
+    .post-copyright:after {
+        position: absolute;
+        color: #fff;
+        background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 496 512'%3E%3Cpath fill='gray' d='M245.8 214.9l-33.2 17.3c-9.4-19.6-25.2-20-27.4-20-22.2 0-33.3 14.6-33.3 43.9 0 23.5 9.2 43.8 33.3 43.8 14.4 0 24.6-7 30.5-21.3l30.6 15.5a73.2 73.2 0 01-65.1 39c-22.6 0-74-10.3-74-77 0-58.7 43-77 72.6-77 30.8-.1 52.7 11.9 66 35.8zm143 0l-32.7 17.3c-9.5-19.8-25.7-20-27.9-20-22.1 0-33.2 14.6-33.2 43.9 0 23.5 9.2 43.8 33.2 43.8 14.5 0 24.7-7 30.5-21.3l31 15.5c-2 3.8-21.3 39-65 39-22.7 0-74-9.9-74-77 0-58.7 43-77 72.6-77C354 179 376 191 389 214.8zM247.7 8C104.7 8 0 123 0 256c0 138.4 113.6 248 247.6 248C377.5 504 496 403 496 256 496 118 389.4 8 247.6 8zm.8 450.8c-112.5 0-203.7-93-203.7-202.8 0-105.5 85.5-203.3 203.8-203.3A201.7 201.7 0 01451.3 256c0 121.7-99.7 202.9-202.9 202.9z'/%3E%3C/svg%3E");
+        content: ' ';
+        height: 10rem;
+        width: 10rem;
+        right: -2rem;
+        top: -2rem;
+        opacity: .1;
+    }
+
+</style>
+
+    
+
+    
+        <!--
+        <link rel="stylesheet" href="/css/page.css" media="print"
+            onload="this.media='all';this.onload=null">
+        <noscript>-->
+            <link rel="stylesheet" href="/css/page.css">
+        <!--</noscript>-->
+    
+    
+    <link rel="stylesheet" href="/css/main.css" media="print" onload="this.media='all';this.onload=null">
+    <noscript>
+        <link rel="stylesheet" href="/css/main.css">
+    </noscript>
+
+    
+    <script src="/js/main.js"></script>
+    
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+    <body>
+        <header>
+            
+<div class="header__left">
+	<a href="/" class="button"><span class="logo__text">SaerMART</span></a>
+</div>
+<div class="header__right">
+	<div class="navbar__menus">
+		
+		<a href="/" class="button">
+			<div class="navbar-menu">首页</div>
+		</a>
+		
+		<a href="/archives/" class="button">
+			<div class="navbar-menu">归档</div>
+		</a>
+		
+		<a href="/categories/" class="button">
+			<div class="navbar-menu">分类</div>
+		</a>
+		
+		<a href="/tags/" class="button">
+			<div class="navbar-menu">标签</div>
+		</a>
+		
+		<a href="/about/" class="button">
+			<div class="navbar-menu">关于</div>
+		</a>
+		
+	</div>
+	
+	<a href="/search/" class="button">
+		<div id="btn-search">
+			<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 1024 1024" width="24" height="24" fill="currentColor"
+				stroke="currentColor" stroke-width="32">
+				<path
+					d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z">
+				</path>
+			</svg>
+		</div>
+	</a>
+	
+	<a href="javaScript:void(0);" class="button" id="btn-toggle-dark">
+		<div>
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none"
+				stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+			</svg>
+		</div>
+	</a>
+	<a href="javaScript:void(0);" class="dropdown-icon button">
+		<div id="btn-dropdown">
+			<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 1024 1024" width="24" height="24" fill="currentColor"
+				stroke="currentColor" stroke-width="32" stroke-linecap="round">
+				<path
+					d="M903.43 561.52H148.8c-13.25 0-24-10.75-24-24s10.75-24 24-24h754.63c13.25 0 24 10.75 24 24s-10.75 24-24 24zM903.43 204.31H148.8c-13.25 0-24-10.75-24-24s10.75-24 24-24h754.63c13.25 0 24 10.75 24 24s-10.75 24-24 24zM903.43 918.73H148.8c-13.25 0-24-10.75-24-24s10.75-24 24-24h754.63c13.25 0 24 10.75 24 24s-10.75 24-24 24z"
+					fill="currentColor"></path>
+			</svg>
+		</div>
+	</a>
+	<div class="dropdown-menus" id="dropdown-menus">
+		
+		<a href="/" class="dropdown-menu button">首页</a>
+		<br>
+		
+		<a href="/archives/" class="dropdown-menu button">归档</a>
+		<br>
+		
+		<a href="/categories/" class="dropdown-menu button">分类</a>
+		<br>
+		
+		<a href="/tags/" class="dropdown-menu button">标签</a>
+		<br>
+		
+		<a href="/about/" class="dropdown-menu button">关于</a>
+		<br>
+		
+	</div>
+</div>
+
+        </header>
+        <div id="top"></div>
+        <div id="page-main" class="main-content">
+        <div class="mg-top">
+            
+
+<article class="page">
+<div id="post-meta-m">
+    <div class="post-meta" id="post-meta">
+  <h3>关于Python爬虫种类、法律、轮子的一二三</h3>
+    
+      <span class="post-meta-label">
+        saermart
+      </span>
+    
+    
+      <span class="post-meta-label">
+        <span class="p-dot"></span>
+        <time datetime="2020-11-16 13:57" pubdate>
+          2020-11-16
+        </time>
+      </span>
+    
+    
+      
+      <span class="post-meta">
+        <span class="p-dot"></span>
+        共 3.8k 字
+      </span>
+    
+    
+      
+      <span class="post-meta">
+        <span class="p-dot"></span>
+        
+        预计 
+        22
+         分钟
+      </span>
+    
+    
+      
+      <span class="post-meta">
+        <span class="p-dot"></span>
+        <span id="busuanzi_container_page_pv">
+          共 <span id="busuanzi_value_page_pv"></span> 次阅读
+        </span>
+      </span>
+    
+  </div>
+  
+</div>
+<div class="article-m">
+  <div class="post-toc">
+    
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Welcome-to-the-D-age"><span class="toc-number">1.</span> <span class="toc-text">Welcome to the D-age</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%95%E5%BE%8B%E7%9A%84%E8%BE%B9%E7%95%8C-%E6%8A%80%E6%9C%AF%E6%97%A0%E7%BD%AA"><span class="toc-number">2.</span> <span class="toc-text">法律的边界,技术无罪</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E6%AC%B2%E5%96%84%E5%85%B6%E4%BA%8B"><span class="toc-number">3.</span> <span class="toc-text">工欲善其事</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E7%88%AC%E8%99%AB"><span class="toc-number">3.1.</span> <span class="toc-text">同步爬虫</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B%E7%88%AC%E8%99%AB"><span class="toc-number">3.2.</span> <span class="toc-text">多进程爬虫</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%88%AC%E8%99%AB"><span class="toc-number">3.3.</span> <span class="toc-text">多线程爬虫</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E5%8D%8F%E7%A8%8B%E7%88%AC%E8%99%AB"><span class="toc-number">3.4.</span> <span class="toc-text">异步协程爬虫</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B-%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E7%88%AC%E8%99%AB"><span class="toc-number">3.5.</span> <span class="toc-text">多进程 + 多线程 爬虫</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B-%E5%BC%82%E6%AD%A5%E5%8D%8F%E7%A8%8B-%E7%88%AC%E8%99%AB"><span class="toc-number">3.6.</span> <span class="toc-text">多进程 + 异步协程 爬虫</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%87%87%E9%9B%86"><span class="toc-number">3.7.</span> <span class="toc-text">分布式采集</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AE%E5%AD%90%E4%BB%AC%EF%BC%8C%E4%BD%A0%E4%BB%AC%E8%BE%9B%E8%8B%A6%E4%BA%86"><span class="toc-number">4.</span> <span class="toc-text">轮子们，你们辛苦了</span></a></li></ol>
+    
+  </div>
+    <div id="article">
+      <div id="post-content" class="markdown-body textretty">
+        <h2 id="Welcome-to-the-D-age"><a href="#Welcome-to-the-D-age" class="headerlink" title="Welcome to the D-age"></a>Welcome to the D-age</h2><p>对于网络上的公开数据，理论上只要由服务端发送到前端都可以由爬虫获取到。但是Data-age时代的到来，数据是新的黄金，毫不夸张的说，数据是未来的一切。基于统计学数学模型的各种人工智能的出现，离不开数据驱动。数据采集、清洗是最末端的技术成本，网络爬虫也是基础采集脚本。但是有几个值得关注的是：</p>
+<ul>
+<li>对于实时变化的网络环境，爬虫的持续有效性如何保证</li>
+<li>数据采集、清洗规则的适用范围</li>
+<li>数据采集的时间与质量–效率</li>
+<li>爬与反爬的恩怨</li>
+<li>爬虫的法律界限</li>
+</ul>
+<h2 id="法律的边界-技术无罪"><a href="#法律的边界-技术无罪" class="headerlink" title="法律的边界,技术无罪"></a>法律的边界,技术无罪</h2><p>对于上面几个关注点，我最先关注的便是爬虫的<strong>法律界限</strong> ，我曾经咨询过一个律师：</p>
+<blockquote>
+<p>Q: 老师，我如果用爬虫爬取今日头条这种类型网站的千万级公开数据，算不算违法呢？<br>A: 爬取的公开数据不得进行非法使用或者商业利用</p>
+</blockquote>
+<p>简单的概括便是爬虫爬取的数据如果进行商业出售或者有获利的使用，便构成了“非法使用”。而一般的爬虫程序并不违法，其实这是从法律专业的一方来解读，如果加上技术层面的维度，那么应该从这几方面考虑：</p>
+<blockquote>
+<ul>
+<li>爬取的数据量</li>
+<li>爬取数据的类型（数据具有巨大的商业价值，未经对方许可，任何人不得非法获取其数据并用于<em><strong>经营行为</strong></em>）</li>
+<li>爬取的数据用途 (同行竞争？出售？经营？分析？实验？…)</li>
+<li>是否遵循网站的robots.txt 即 机器人协议</li>
+<li>爬取行为是否会对对方网站造成不能承受的损失（大量的爬取请求会把一个小型网站拖垮）</li>
+</ul>
+</blockquote>
+<p>其实爬虫构成犯罪的案例是开始增多的，相关新闻:</p>
+<blockquote>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.sohu.com/a/256579233_161795">当爬虫遇上法律会有什么风险？</a></li>
+<li><a target="_blank" rel="noopener" href="https://baijiahao.baidu.com/s?id=1609682215455337498&wfr=spider&for=pc">程序员爬虫竟构成犯罪？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/nick477931661/p/9139137.html">爬虫相关法律知识</a></li>
+</ol>
+</blockquote>
+<p>如果你的上级或公司要求你爬取某些网站的大量公开数据，你会怎么办呢？可以参考第2条新闻。法律矛盾点关键在于前面考虑的前三点，如果是个人隐私数据，是不能爬取的，如果是非公开数据，是不能爬取的，而对于其他大量的公开数据爬取，看人家查不查的到你，要不要起诉你。技术在你的手上，非法与否在于你怎么去用。最好的爬取道德原则是：</p>
+<blockquote>
+<ul>
+<li>减少并发请求</li>
+<li>延长请求间隔</li>
+<li>不进行公开出售数据</li>
+<li>遵循网站 robots协议</li>
+</ul>
+</blockquote>
+<p>当然，反爬最有效的便(目的均在于拦截爬虫进入网站数据范围)是:</p>
+<blockquote>
+<ul>
+<li>要求用户密码+验证码</li>
+<li>加密数据</li>
+<li>js混淆</li>
+<li>css混淆</li>
+<li>针对IP请求频率封锁</li>
+<li>针对cookie、session单个账户请求频率封锁单日请求次数</li>
+<li>对关键数据进行拆分合并</li>
+<li>对爬虫投毒（返回假数据）</li>
+<li>完善robots.txt</li>
+<li>识别点击九宫图中没有包含xxx的图片等（终极验证码)</li>
+<li>设置黑白名单、IP用户组等</li>
+</ul>
+</blockquote>
+<h2 id="工欲善其事"><a href="#工欲善其事" class="headerlink" title="工欲善其事"></a>工欲善其事</h2><p>针对网站的公开数据进行爬取，我们一般都要先对网站数据进行<strong>分析，定位</strong>，以确定其采集规则，如果网站设置了访问权限，那么便不属于我们的爬虫采集范围了:)<br>分析好采集规则，写好了采集数据持久化（存入数据库、导出为word、excel、csv、下载等）的相关代码，整个爬虫运行正常。那么怎样才能提高采集速度呢？</p>
+<blockquote>
+<ul>
+<li>多进程采集</li>
+<li>多线程采集</li>
+<li>异步协程采集</li>
+<li>多进程 + 多线程采集</li>
+<li>多进程 + 异步协程采集</li>
+<li>分布式采集</li>
+</ul>
+</blockquote>
+<p>异步爬虫是同步爬虫的升级版，在同步爬虫中，无论你怎么优化代码，同步IO的阻塞是最大的致命伤。同步阻塞会让采集任务一个个排着长队领票等待执行。而异步采集不会造成IO阻塞，充分利用了IO阻塞任务的等待时间去执行其他任务。</p>
+<blockquote>
+<p>在IO 模型中，只有IO多路复用（I&#x2F;O multiplexing）{在内核处理IO请求结果为可读或可写时调用回调函数} 不阻塞 “内核拷贝IO请求数据到用户空间”这个过程，实现异步IO操作。</p>
+</blockquote>
+<h3 id="同步爬虫"><a href="#同步爬虫" class="headerlink" title="同步爬虫"></a>同步爬虫</h3><p>一般的同步爬虫，我们可以写一个，（以爬取<a target="_blank" rel="noopener" href="http://www.quanjing.com/creative/SearchCreative.aspx?id=7">图片网站</a>图片为例），我们来看看其下载该网址所有图片所花费的时间：</p>
+<blockquote>
+<p>以下代码为后面多个例程的共同代码:</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="keyword">import</span> urllib.request <span class="keyword">as</span> request</span><br><span class="line"></span><br><span class="line"><span class="comment">#目标网址</span></span><br><span class="line">url = <span class="string">&#x27;http://www.quanjing.com/creative/SearchCreative.aspx?id=7&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">download_one_pic</span>(<span class="params">url:<span class="built_in">str</span>,name:<span class="built_in">str</span>,suffix:<span class="built_in">str</span>=<span class="string">&#x27;jpg&#x27;</span></span>):</span><br><span class="line">    <span class="comment">#下载单张图片</span></span><br><span class="line">    path = <span class="string">&#x27;.&#x27;</span>.join([name,suffix])</span><br><span class="line">    response = request.urlopen(url)</span><br><span class="line">    wb_data = response.read()</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(path,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(wb_data)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">download_many_pic</span>(<span class="params">urls:<span class="built_in">list</span></span>):</span><br><span class="line">    <span class="comment">#下载多张图片</span></span><br><span class="line">    start = time.time()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> urls:</span><br><span class="line">        ts = <span class="built_in">str</span>(<span class="built_in">int</span>(time.time() * <span class="number">1000</span>))</span><br><span class="line">        download_one_pic(i, ts)</span><br><span class="line">    end = time.time()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">u&#x27;下载完成,%d张图片,耗时:%.2fs&#x27;</span> % (<span class="built_in">len</span>(urls), (end - start)))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_pic_urls</span>(<span class="params">url:<span class="built_in">str</span></span>)-&gt;<span class="built_in">list</span>:</span><br><span class="line">    <span class="comment">#获取页面所有图片链接</span></span><br><span class="line">    response = request.urlopen(url)</span><br><span class="line">    wb_data = response.read()</span><br><span class="line">    html = etree.HTML(wb_data)</span><br><span class="line">    pic_urls = html.xpath(<span class="string">&#x27;//a[@class=&quot;item lazy&quot;]/img/@src&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> pic_urls</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">allot</span>(<span class="params">pic_urls:<span class="built_in">list</span>,n:<span class="built_in">int</span></span>)-&gt;<span class="built_in">list</span>:</span><br><span class="line">    <span class="comment">#根据给定的组数，分配url给每一组</span></span><br><span class="line">    _<span class="built_in">len</span> = <span class="built_in">len</span>(pic_urls)</span><br><span class="line">    base = <span class="built_in">int</span>(_<span class="built_in">len</span> / n)</span><br><span class="line">    remainder = _<span class="built_in">len</span> % n</span><br><span class="line">    groups = [pic_urls[i * base:(i + <span class="number">1</span>) * base] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n)]</span><br><span class="line">    remaind_group = pic_urls[n * base:]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(remainder):</span><br><span class="line">        groups[i].append(remaind_group[i])</span><br><span class="line">    <span class="keyword">return</span> [i <span class="keyword">for</span> i <span class="keyword">in</span> groups <span class="keyword">if</span> i]</span><br></pre></td></tr></table></figure>
+
+<p>同步爬虫:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">crawler</span>():</span><br><span class="line">    <span class="comment">#同步下载</span></span><br><span class="line">    pic_urls = get_pic_urls(url)</span><br><span class="line">    download_many_pic(pic_urls)</span><br></pre></td></tr></table></figure>
+
+<p>执行同步爬虫，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crawler()</span><br></pre></td></tr></table></figure>
+
+<p>输出（时间可能不一样，取决于你的网速）：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">下载完成,196张图片,耗时:49.04s</span></span><br></pre></td></tr></table></figure>
+
+<p>在同一个网络环境下，排除网速时好时坏，可以下载多几次取平均下载时间，在我的网络环境下，我下载了5次，平均耗时约55.26s</p>
+<h3 id="多进程爬虫"><a href="#多进程爬虫" class="headerlink" title="多进程爬虫"></a>多进程爬虫</h3><p>所以为了提高采集速度，我们可以写一个多进程爬虫（以爬取<a target="_blank" rel="noopener" href="http://www.quanjing.com/creative/SearchCreative.aspx?id=7">图片网站</a>图片为例）:<br>为了对应多进程的进程数n，我们可以将图片链接列表分成n组，多进程爬虫:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing.pool <span class="keyword">import</span> Pool</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multiprocess_crawler</span>(<span class="params">processors:<span class="built_in">int</span></span>):</span><br><span class="line">    <span class="comment">#多进程爬虫</span></span><br><span class="line">    pool = Pool(processors)</span><br><span class="line">    pic_urls = get_pic_src(url)</span><br><span class="line">    <span class="comment">#对应多进程的进程数processors，我们可以将图片链接列表分成processors组</span></span><br><span class="line">    url_groups = allot(pic_urls,processors)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> url_groups:</span><br><span class="line">        pool.apply_async(func=download_many_pic,args=(i,))</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br></pre></td></tr></table></figure>
+
+<p>执行爬虫,进程数设为4，一般是cpu数量：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">multiprocess_crawler(<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">下载完成,49张图片,耗时:18.22s</span></span><br><span class="line"><span class="section">下载完成,49张图片,耗时:18.99s</span></span><br><span class="line"><span class="section">下载完成,49张图片,耗时:18.97s</span></span><br><span class="line"><span class="section">下载完成,49张图片,耗时:19.51s</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看出，多进程比原先的同步爬虫快许多，整个程序耗时19.51s，为什么不是同步爬虫的55s&#x2F;4 ≈ 14s呢？因为进程间的切换需要耗时。<br>如果把进程数增大，那么:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">进程数:10 , 耗时：12.3s</span></span><br><span class="line"><span class="section">进程数:30 , 耗时：2.81s</span></span><br><span class="line"><span class="section">进程数:40 , 耗时：11.34s</span></span><br></pre></td></tr></table></figure>
+
+<p>对于多进程爬虫来说，虽然实现异步爬取，但也不是越多进程越好，进程间切换的开销不仅会让你崩溃，有时还会让你的程序崩溃。一般用进程池Pool维护，Pool的processors设为CPU数量。进程的数量设置超过100个便让我的程序崩溃退出。使用进程池可以保证当前在跑的进程数量控制为设置的数量，只有池子没满才能加新的进程进去。</p>
+<h3 id="多线程爬虫"><a href="#多线程爬虫" class="headerlink" title="多线程爬虫"></a>多线程爬虫</h3><p>多线程版本可以在单进程下进行异步采集，但线程间的切换开销也会随着线程数的增大而增大。当线程间需要共享变量内存时，此时会有许多不可预知的变量读写操作发生，python为了使线程同步，给每个线程共享变量加了全局解释器锁GIL。而我们的爬虫不需要共享变量，因此是线程安全的，不用加锁。多线程版本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">run_multithread_crawler</span>(<span class="params">pic_urls:<span class="built_in">list</span>,threads:<span class="built_in">int</span></span>):</span><br><span class="line">    begin = <span class="number">0</span></span><br><span class="line">    start = time.time()</span><br><span class="line">    <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">        _threads = []</span><br><span class="line">        urls = pic_urls[begin:begin+threads]</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> urls:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> urls:</span><br><span class="line">            ts = <span class="built_in">str</span>(<span class="built_in">int</span>(time.time()*<span class="number">10000</span>))+<span class="built_in">str</span>(random.randint(<span class="number">1</span>,<span class="number">100000</span>))</span><br><span class="line">            t = Thread(target=download_one_pic,args=(i,ts))</span><br><span class="line">            _threads.append(t)</span><br><span class="line">        <span class="keyword">for</span> t <span class="keyword">in</span> _threads:</span><br><span class="line">            t.setDaemon(<span class="literal">True</span>)</span><br><span class="line">            t.start()</span><br><span class="line">        <span class="keyword">for</span> t <span class="keyword">in</span> _threads:</span><br><span class="line">            t.join()</span><br><span class="line">        begin += threads</span><br><span class="line">    end = time.time()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">u&#x27;下载完成,%d张图片,耗时:%.2fs&#x27;</span> % (<span class="built_in">len</span>(pic_urls), (end - start)))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multithread_crawler</span>(<span class="params">threads:<span class="built_in">int</span></span>):</span><br><span class="line">    pic_urls = get_pic_src(url)</span><br><span class="line">    run_multithread_crawler(pic_urls,threads)</span><br></pre></td></tr></table></figure>
+
+<p>并发线程数太多会让我们的系统开销越大，使程序花费时间越长，同时也会增大目标网站识别爬虫机器行为的几率。因此设置好一个适当的线程数以及爬取间隔是良好的爬虫习惯。<br>执行多线程爬虫，设置线程数为50</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">multithreads_crawler(<span class="number">50</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">下载完成,196张图片,耗时:3.10s</span></span><br></pre></td></tr></table></figure>
+
+<p>增大线程数，输出：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">线程数:50,耗时:3.10s</span></span><br><span class="line"><span class="section">线程数:60,耗时:3.07s</span></span><br><span class="line"><span class="section">线程数:70,耗时:2.50s</span></span><br><span class="line"><span class="section">线程数:80,耗时:2.31s</span></span><br><span class="line"><span class="section">线程数:120,耗时:3.67s</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，线程可以有效的提高爬取效率，缩短爬取时间，但必须是一个合理的线程数，越多有时并不是越好的，一般是几十到几百个之间，数值比多进程进程数大许多。</p>
+<h3 id="异步协程爬虫"><a href="#异步协程爬虫" class="headerlink" title="异步协程爬虫"></a>异步协程爬虫</h3><p>Python3.5引入了async&#x2F;await 异步协程语法。详见<a target="_blank" rel="noopener" href="https://www.python.org/dev/peps/pep-0492/">PEP492</a><br>由于asyncio提供了基于socket的异步I&#x2F;O，支持TCP和UDP协议，但是不支持应用层协议HTTP，所以需要安装异步http请求的aiohttp模块<br>单进程下的异步协程爬虫：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"><span class="keyword">from</span> asyncio <span class="keyword">import</span> Semaphore</span><br><span class="line"><span class="keyword">from</span> aiohttp <span class="keyword">import</span> ClientSession,TCPConnector</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">download</span>(<span class="params">session:ClientSession,url:<span class="built_in">str</span>,name:<span class="built_in">str</span>,sem:Semaphore,suffix:<span class="built_in">str</span>=<span class="string">&#x27;jpg&#x27;</span></span>):</span><br><span class="line">    path = <span class="string">&#x27;.&#x27;</span>.join([name,suffix])</span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> sem:</span><br><span class="line">        <span class="keyword">async</span> <span class="keyword">with</span> session.get(url) <span class="keyword">as</span> response:</span><br><span class="line">            wb_data = <span class="keyword">await</span> response.read()</span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(path,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(wb_data)</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">run_coroutine_crawler</span>(<span class="params">pic_urls:<span class="built_in">list</span>,concurrency:<span class="built_in">int</span></span>):</span><br><span class="line">    <span class="comment"># 异步协程爬虫,最大并发请求数concurrency</span></span><br><span class="line">    tasks = []</span><br><span class="line">    sem = Semaphore(concurrency)</span><br><span class="line">    conn =TCPConnector(limit=concurrency)</span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> ClientSession(connector=conn) <span class="keyword">as</span> session:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> pic_urls:</span><br><span class="line">            ts = <span class="built_in">str</span>(<span class="built_in">int</span>(time.time() * <span class="number">10000</span>)) + <span class="built_in">str</span>(random.randint(<span class="number">1</span>, <span class="number">100000</span>))</span><br><span class="line">            tasks.append(asyncio.create_task(download(session,i,ts,sem)))</span><br><span class="line">        start = time.time()</span><br><span class="line">        <span class="keyword">await</span> asyncio.gather(*tasks)</span><br><span class="line">        end = time.time()</span><br><span class="line">    	<span class="built_in">print</span>(<span class="string">u&#x27;下载完成,%d张图片,耗时:%.2fs&#x27;</span> % (<span class="built_in">len</span>(pic_urls), (end - start)))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">coroutine_crawler</span>(<span class="params">concurrency:<span class="built_in">int</span></span>):</span><br><span class="line">    pic_urls = get_pic_src(url)</span><br><span class="line">    loop = asyncio.get_event_loop()</span><br><span class="line">    loop.run_until_complete(run_coroutine_crawler(pic_urls,concurrency))</span><br><span class="line">    loop.close()</span><br></pre></td></tr></table></figure>
+
+<p>执行异步协程爬虫，设置最大并发请求数为100：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coroutine_crawler(<span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">下载完成,196张图片,耗时:2.27s</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看出，异步多协程的下载请求效率并不比多线程差，由于磁盘IO读写阻塞，所以还可以进一步优化，使用<a target="_blank" rel="noopener" href="https://pypi.org/project/aiofiles/0.2.1/">aiofiles</a>。<br>针对比较大的多媒体数据下载，异步磁盘IO可以使用aiofiles,以上述例子download可以改为:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> aiofiles</span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">download</span>(<span class="params">session:ClientSession,url:<span class="built_in">str</span>,name:<span class="built_in">str</span>,sem:Semaphore,suffix:<span class="built_in">str</span>=<span class="string">&#x27;jpg&#x27;</span></span>):</span><br><span class="line">    path = <span class="string">&#x27;.&#x27;</span>.join([name,suffix])</span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> sem:</span><br><span class="line">        <span class="keyword">async</span> <span class="keyword">with</span> session.get(url) <span class="keyword">as</span> response:</span><br><span class="line">           <span class="keyword">async</span> <span class="keyword">with</span> aiofiles.<span class="built_in">open</span>(path,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> fd:</span><br><span class="line">            <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">                wb_data_chunk = <span class="keyword">await</span> response.content.read(<span class="number">1024</span>)</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> wb_data_chunk:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">await</span> fd.write(wb_data_chunk)</span><br></pre></td></tr></table></figure>
+
+<h3 id="多进程-多线程-爬虫"><a href="#多进程-多线程-爬虫" class="headerlink" title="多进程 + 多线程 爬虫"></a>多进程 + 多线程 爬虫</h3><p>实际采集大量数据的过程中，往往是多种手段来实现爬虫，这样可以充分利用机器CPU，节省采集时间。<br>下面使用多进程（进程数为CPU数，4）+ 多线程 （线程数设为50）来对例子进行更改(上面各个例子导入的模块默认使用):</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">mixed_process_thread_crawler</span>(<span class="params">processors:<span class="built_in">int</span>,threads:<span class="built_in">int</span></span>):</span><br><span class="line">    pool = Pool(processors)</span><br><span class="line">    pic_urls = get_pic_src(url)</span><br><span class="line">    url_groups = allot(pic_urls,processors)</span><br><span class="line">    <span class="keyword">for</span> group <span class="keyword">in</span> url_groups:</span><br><span class="line">        pool.apply_async(run_multithread_crawler,args=(group,threads))</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br></pre></td></tr></table></figure>
+
+<p>执行爬虫：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mixed_process_thread_crawler(<span class="number">4</span>,<span class="number">50</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">下载完成,49张图片,耗时:2.73s</span></span><br><span class="line"><span class="section">下载完成,49张图片,耗时:2.76s</span></span><br><span class="line"><span class="section">下载完成,49张图片,耗时:2.76s</span></span><br><span class="line"><span class="section">下载完成,49张图片,耗时:2.76s</span></span><br></pre></td></tr></table></figure>
+
+<p>采集时间与异步协程和多线程并无多大的差异，可以使用更大数据量做实验区分。因为多进程+多线程，CPU切换上下文也会造成一定的开销，所以进程数与线程数不能太大，并发请求的时间间隔也要考虑进去。</p>
+<h3 id="多进程-异步协程-爬虫"><a href="#多进程-异步协程-爬虫" class="headerlink" title="多进程 + 异步协程 爬虫"></a>多进程 + 异步协程 爬虫</h3><p>使用多进程（进程数为CPU数，4）+ 异步协程（最大并发请求数设为50）来对例子进行更改(上面各个例子导入的模块默认使用):</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_coroutine_crawler</span>(<span class="params">pic_urls:<span class="built_in">list</span>,concurrency:<span class="built_in">int</span></span>):</span><br><span class="line">    loop = asyncio.get_event_loop()</span><br><span class="line">    loop.run_until_complete(run_coroutine_crawler(pic_urls, concurrency))</span><br><span class="line">    loop.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">mixed_process_coroutine_crawler</span>(<span class="params">processors:<span class="built_in">int</span>,concurrency:<span class="built_in">int</span></span>):</span><br><span class="line">    pool = Pool(processors)</span><br><span class="line">    pic_urls = get_pic_src(url)</span><br><span class="line">    url_groups = allot(pic_urls, processors)</span><br><span class="line">    <span class="keyword">for</span> group <span class="keyword">in</span> url_groups:</span><br><span class="line">        pool.apply_async(_coroutine_crawler, args=(group, concurrency))</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br></pre></td></tr></table></figure>
+
+<p>执行爬虫 ：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mixed_process_coroutine_crawler(<span class="number">4</span>,<span class="number">50</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">下载完成,49张图片,耗时:2.56s</span></span><br><span class="line"><span class="section">下载完成,49张图片,耗时:2.54s</span></span><br><span class="line"><span class="section">下载完成,49张图片,耗时:2.56s</span></span><br><span class="line"><span class="section">下载完成,49张图片,耗时:2.62s</span></span><br></pre></td></tr></table></figure>
+
+<p>效果与多进程 + 多线程 爬虫差不多，但是CPU减少了切换线程上下文的开销，而是对每一个协程任务进行监视回调唤醒。使用IO多路复用的底层原理实现。</p>
+<h3 id="分布式采集"><a href="#分布式采集" class="headerlink" title="分布式采集"></a>分布式采集</h3><p>关于分布式采集将会单独写一章，使用Map-Reduce+redis来实现分布式爬虫。</p>
+<h2 id="轮子们，你们辛苦了"><a href="#轮子们，你们辛苦了" class="headerlink" title="轮子们，你们辛苦了"></a>轮子们，你们辛苦了</h2><p>现实生活中的爬虫不止上面那些，但是基本的骨架是一样的，对于特定的网站需要制定特定的采集规则，所以通用的数据采集爬虫很难实现。所以针对某个网站的数据采集爬虫是需要定制的，但是在不同之中包含着许多的相同、重复性的过程，比如说采集流程，或者对请求头部的伪造，数据持久化的处理等，采集框架应运而生。Scrapy就是目前比较成熟的一个爬虫框架。它可以帮助我们大大减少重复性的代码编写，可以更好的组织采集流程。而我们只需要喝一杯咖啡，编写自己的采集规则，让Scrapy去给我们管理各种各样的爬虫，做些累活。如果你是一个爬虫爱好者，那么scrapy是你的不错选择。由于好奇scrapy的实现流程，所以我才开始打开他的源码学习。<br>有些人觉得scrapy太重，他的爬虫只需要简单的采集，自己写一下就可以搞定了。但如果是大量的爬虫采集呢？怎么去管理这些爬虫呢？怎样才能提高采集效率呀？<br>Scrapy helps！！</p>
+<p>另外还有另一个Python采集框架：pyspider。国人编写的，cool<br>感谢轮子们的父母，还有那些辛苦工作的轮子们，你们辛苦了</p>
+
+      </div>
+    </div>
+</div>
+
+<div class="post-category">
+
+    <div id="p-meta-i">
+        
+              
+                <a class="hover-with-bg" href="/categories/python/">python</a>
+              
+                <a class="hover-with-bg" href="/categories/%E7%88%AC%E8%99%AB/">爬虫</a>
+              
+          
+          
+              
+                <a class="hover-with-bg" href="/tags/%E7%88%AC%E8%99%AB/"># 爬虫</a>
+              
+                <a class="hover-with-bg" href="/tags/%E6%B3%95%E5%BE%8B/"># 法律</a>
+              
+          
+    </div>
+</div>
+
+
+<div class="post-footer">
+  
+  <div class="donate text-center">
+    <span>喜欢这篇文章？为什么不考虑打赏一下作者呢？</span>
+    <div class="donate-way">
+      
+        <a href="/" class="donate-btn button">
+          打赏
+        </a>
+      
+    </div>
+  </div>
+  
+
+  <div class="post-copyright">
+    <p style="margin: 5px 0;">文章作者：<a href="/">saermart</a></p>
+    <p style="margin: 5px 0;">文章链接：<a href="https://saermart.github.io/2020/11/16/%E5%85%B3%E4%BA%8EPython%E7%88%AC%E8%99%AB%E7%A7%8D%E7%B1%BB%E3%80%81%E6%B3%95%E5%BE%8B%E3%80%81%E8%BD%AE%E5%AD%90%E7%9A%84%E4%B8%80%E4%BA%8C%E4%B8%89/">https://saermart.github.io/2020/11/16/%E5%85%B3%E4%BA%8EPython%E7%88%AC%E8%99%AB%E7%A7%8D%E7%B1%BB%E3%80%81%E6%B3%95%E5%BE%8B%E3%80%81%E8%BD%AE%E5%AD%90%E7%9A%84%E4%B8%80%E4%BA%8C%E4%B8%89/</a></p>
+    <p style="margin: 5px 0;">版权声明：本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处，谢谢。</p>
+  </div>
+  
+</div>
+
+    <!-- Comments -->
+    <div class="comments">
+        
+        
+    <script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+    <div id="miracle-comments">
+        <div id="miracle-vcomments"></div>
+    </div>
+    <script>
+        new Valine({
+            el: '#miracle-vcomments',
+            appId: 'ymVS2Q5j3lYw5JBnWwaQfYXu-gzGzoHsz',
+            appKey: 'HOsNh1Prm2PY2NQFwaEDRvA2',
+            placeholder: '请文明留言,对于无效留言，定期清理.',
+            path: window.location.pathname,
+            avatar: 'retro',
+            meta: ["nick","mail","link"],
+            pageSize: 100,
+            lang: 'zh-CN',
+            highlight: true,
+            avatarForce: false,
+            recordIP: true,
+            serverURLs: '',
+            enableQQ: true,
+            requiredFields: ["nick"]
+        })
+    </script>
+
+    </div>
+
+</article>
+
+
+        </div>
+        
+<footer class="text-center">
+    
+    
+    
+    
+    
+    <p>&copy;  2022 - 2022&nbsp;&nbsp;SaerMART</p>
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme by <a href="https://github.com/hifun-team/hexo-theme-miracle" target="_blank">Miracle</a></p>
+    
+    
+</footer>
+
+<div class="p-btn">
+    
+        <a class="toc-btn" id="toc-btn"><i id="i-menu"></i></a>
+    
+    <a href="#top" class="click-btn">
+      <i id="i-up"></i>
+    </a>
+</div>
+
+<!-- SCRIPTS -->
+
+
+
+
+
+
+
+<script>
+    document.getElementById("btn-dropdown").addEventListener('click', () => {
+      toggleClass("#dropdown-menus","display-inline");
+    });
+    console.log('\n' + ' %c Powered by Hexo Theme Miracle ' + ' %c https://github.com/hifun-team/hexo-theme-miracle ' + '\n' + '\n', 'color: #fff; background: #4F9BFA; padding:5px 0;', 'background: #FFF; padding:5px 0;');
+
+    
+
+    
+      document.addEventListener('copy', function (event) {
+      const clipboardData = event.clipboardData || window.clipboardData;
+      if (!clipboardData) { return; }
+      const text = window.getSelection().toString();
+      if (text) {
+        event.preventDefault();
+        clipboardData.setData('text/plain', text + '\n本文著作权归属saermart，作者博客：https://saermart.github.io/，转载请注明出处。');
+      }
+    });
+    
+  /* 小彩蛋: 饮茶先啦 */
+  setTimeout(() => {
+    var time = new Date();
+    if (time.getHours() == 15) {
+      let comment = document.createComment(' 三点几嚟！饮茶先啦！ ');
+      document.body.insertBefore(comment, document.getElementsByTagName('header')[0]);
+    }
+  },1);
+    
+</script>
+
+
+<script>
+    var postImg = document.querySelectorAll("article[class=page] img");
+    for (let imgi = 0; imgi < postImg.length; imgi++) {
+        postImg[imgi].onclick = () => {
+            let zoomImg = document.createElement("div");
+            zoomImg.id = "zoomImg";
+            zoomImg.innerHTML = `<div id="zoom-picture"></div>
+    <div class="poptrox-overlay"
+        style="position: fixed; left: 0px; top: 0px; z-index: 20000; width: 100%; height: 100%; text-align: center; cursor: zoom-out; opacity: 1;">
+        <div style="display:inline-block;height:100%;vertical-align:middle;"></div>
+        <div
+            style="position:absolute;left:0;top:0;width:100%;height:100%;background:#000000;opacity:0;filter:alpha(opacity=0);">
+        </div>
+        <div class="poptrox-popup"
+            style="display: inline-block; vertical-align: middle; position: relative; z-index: 1; cursor: zoom-out; min-width: 10px; min-height: 10px; width: auto; height: auto;">
+            <div class="loader" style="display: none;"></div>
+            <div class="pic" style="text-indent: 0px;"><img
+                    src="${ postImg[imgi].srcset || postImg[imgi].src }" alt="Loading..."
+                    style="vertical-align: bottom; max-width: 85vw; max-height: 85vh;"></div>
+        </div>
+    </div>`;
+            document.body.appendChild(zoomImg);
+                document.querySelector("#zoomImg").onclick = () => {
+                    document.querySelector("#zoomImg").remove();
+                }
+        }
+    }
+    
+</script>
+
+
+
+
+    <script>
+        query("#toc-btn")[0].onclick = () => {
+            if (query(".post-toc")[0].innerHTML) {
+                toggleClass(".post-toc", "display-inline");
+            }
+        }
+
+        if (!query(".post-toc")[0].innerHTML) {
+            addClass("#toc-btn","display-none");
+        }
+    </script>
+
+
+
+
+
+
+    <script>
+        setTimeout(() => {
+            loadScriptFile({
+                url: "//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js",
+                loadType: "async"
+            });
+        },0);
+    </script>
+
+
+
+
+        </div>
+        <div id="css-loading">
+            <h3 class="text-center">加载中...</h3>
+        </div>
+        
+    </body>
+</html>

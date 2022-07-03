@@ -8,7 +8,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="/null">
     <link rel="icon" type="image/png" href="/img/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-    <title>友链 - 流沙</title>
+    <title>标签 - 爬虫 - 流沙</title>
     
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     
@@ -449,71 +449,25 @@ header .header__right .dropdown-menus .dropdown-menu {
         <div id="page-main" class="main-content">
         <div class="mg-top">
             
+
 <article class="page">
-<div id="post-meta-m" style="padding-bottom:0;">
-  <div class="post-meta" id="post-meta">
-    <h3>友链</h3>
-  </div>
+  <div class="archive-list">
+    <p class="h4">共计 1 篇文章</p>
+    <hr>
+    
+    
+      
+        
+        <p class="h5">2020</p>
+      
+      <a href="/2020/11/16/%E5%85%B3%E4%BA%8EPython%E7%88%AC%E8%99%AB%E7%A7%8D%E7%B1%BB%E3%80%81%E6%B3%95%E5%BE%8B%E3%80%81%E8%BD%AE%E5%AD%90%E7%9A%84%E4%B8%80%E4%BA%8C%E4%B8%89/" class="list-group-item list-group-item-action">
+        <span class="archive-post-title">关于Python爬虫种类、法律、轮子的一二三</span>
+        <time style="float: right;">11-16</time>
+      </a>
+    
+
 </div>
-<div class="links-page" style="padding-top:10px;" id="links-page">
-    
-    
-      <script>
-        (async () => {
-          var res = await fetch('');
-          var json = await res.json();
-          console.log(json);
-          const Linkscontainer = document.getElementById('links-page');
-          json.forEach(item => {
-            const element = document.createElement('div');
-            element.className = "links-card";
-
-            element.innerHTML = `
-        <a href="${item.link}" class="links-card-body" target="_blank" rel="noopener">
-          <div class="links-card-content">
-              <div class="link-avatar my-auto">
-                
-                  <img webp-comp class="lazyload-img" data-srcset="${item.image}" srcset="/img/loading.svg" src="${item.image}" alt="${item.title}" />
-                
-              </div>
-            <div class="link-text">
-              <div class="link-title">${item.title}</div>
-              <div class="link-intro">${item.intro}</div>
-            </div>
-          </div>
-        </a>
-            `;
-            Linkscontainer.appendChild(element);
-          });
-          setTimeout(function () {
-  function query(selector) {
-    return Array.from(document.querySelectorAll(selector));
-}
-    
-var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-        if (entry.isIntersecting) { 
-            var img = entry.target;
-            img.srcset = img.getAttribute('data-srcset');
-            img.className += ' loaded'
-            io.unobserve(img);
-        }
-    });
-});
-    
-query('.lazyload-img').forEach(function (item) {
-    io.observe(item);
-});
-},0)
-        })();
-
-
-      </script>
-    
-</div>
-  </div>
 </article>
-
         </div>
         
 <footer class="text-center">
