@@ -8,7 +8,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="/null">
     <link rel="icon" type="image/png" href="/img/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-    <title>分类 - 爬虫 - 流沙</title>
+    <title>字体加密-大众点评店铺评论解析学习记录 - 流沙</title>
     
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     
@@ -457,25 +457,176 @@ header .header__right .dropdown-menus .dropdown-menu {
         <div class="mg-top">
             
 
-
 <article class="page">
-  <div class="archive-list">
-    <p class="h4">共计 1 篇文章</p>
-    <hr>
+<div id="post-meta-m">
+    <div class="post-meta" id="post-meta">
+  <h3>字体加密-大众点评店铺评论解析学习记录</h3>
+    
+      <span class="post-meta-label">
+        saermart
+      </span>
+    
+    
+      <span class="post-meta-label">
+        <span class="p-dot"></span>
+        <time datetime="2022-07-03 21:59" pubdate>
+          2022-07-03
+        </time>
+      </span>
     
     
       
+      <span class="post-meta">
+        <span class="p-dot"></span>
+        共 277 字
+      </span>
+    
+    
+      
+      <span class="post-meta">
+        <span class="p-dot"></span>
         
-        <p class="h5">2020</p>
-      
-      <a href="/2020/11/16/%E5%85%B3%E4%BA%8EPython%E7%88%AC%E8%99%AB%E7%A7%8D%E7%B1%BB%E3%80%81%E6%B3%95%E5%BE%8B%E3%80%81%E8%BD%AE%E5%AD%90%E7%9A%84%E4%B8%80%E4%BA%8C%E4%B8%89/" class="list-group-item list-group-item-action">
-        <span class="archive-post-title">关于Python爬虫种类、法律、轮子的一二三</span>
-        <time style="float: right;">11-16</time>
-      </a>
+        预计 
+        2
+         分钟
+      </span>
     
-
+    
+      
+      <span class="post-meta">
+        <span class="p-dot"></span>
+        <span id="busuanzi_container_page_pv">
+          共 <span id="busuanzi_value_page_pv"></span> 次阅读
+        </span>
+      </span>
+    
+  </div>
+  
 </div>
+<div class="article-m">
+  <div class="post-toc">
+    
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E9%A1%B5%E5%AD%97%E4%BD%93%E5%8A%A0%E5%AF%86%E5%8F%8D%E7%88%AC"><span class="toc-number">1.</span> <span class="toc-text">网页字体加密反爬</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%9F%BA%E4%BA%8E%E5%AD%97%E4%BD%93%E6%96%87%E4%BB%B6%E7%9A%84%E5%AD%97%E4%BD%93%E5%8F%8D%E7%88%AC"><span class="toc-number">2.</span> <span class="toc-text">1.基于字体文件的字体反爬</span></a></li></ol>
+    
+  </div>
+    <div id="article">
+      <div id="post-content" class="markdown-body textretty">
+        <h2 id="网页字体加密反爬"><a href="#网页字体加密反爬" class="headerlink" title="网页字体加密反爬"></a>网页字体加密反爬</h2><p>对于当前网也字体加密比较典型的有<code>大众点评</code>、<code>汽车之家</code>等，很大部分是以下两种类型的字体加密：</p>
+<ul>
+<li><p>svg偏移</p>
+</li>
+<li><p>字体（woff、ttf等）加密解析</p>
+</li>
+</ul>
+<h2 id="1-基于字体文件的字体反爬"><a href="#1-基于字体文件的字体反爬" class="headerlink" title="1.基于字体文件的字体反爬"></a>1.基于字体文件的字体反爬</h2><p><code>http://www.dianping.com/shop/k4cy7BZpJGdWlhiD</code></p>
+<p><img src="/%5Cimages%5C2.png"></p>
+<p><img src="/images/1.png" alt="image-20220703222239416"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">    <span class="attribute">font-family</span>: <span class="string">&quot;PingFangSC-Regular-review&quot;</span>;</span><br><span class="line">    <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&quot;//s3plus.meituan.net/v1/mss_73a511b8f91f43d0bdae92584ea6330b/font/1284a990.eot&quot;</span>);</span><br><span class="line">    <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&quot;//s3plus.meituan.net/v1/mss_73a511b8f91f43d0bdae92584ea6330b/font/1284a990.eot?#iefix&quot;</span>) <span class="built_in">format</span>(<span class="string">&quot;embedded-opentype&quot;</span>),<span class="built_in">url</span>(<span class="string">&quot;//s3plus.meituan.net/v1/mss_73a511b8f91f43d0bdae92584ea6330b/font/1284a990.woff&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://www.dianping.com/ajax/json/shopDynamic/allReview?shopId=k4cy7BZpJGdWlhiD&amp;cityId=3&amp;shopType=10&amp;tcv=dcknibmr7h&amp;_token=eJx1j11vgjAUhv9LrxtoaSlC4gXzKyKMzIpmLl4ooDA%2BRNuouOy%2Fr0R3sYslTc5z3j7npP0C52kCHIwQohiCS3oGDsAa0hiAQAp1w0xmMRsRw7RMCOK%2FmY1Vtjsvh8D5wCZh0CJ40yVzFTySHqMb%2BESi0KDqdM5UKSCTshGOrl%2BvVy3Jt3WT1wctPla6yI6NXtC4tV7WjTdJVmWWD9Wb%2Fh0Aame16HayHoIEmUp%2BEFJEDQSpYXdS0Umqbp9V%2FvaB%2BrpSRX6oFaXebcEFFaf9PBCL5apt7RnnRuvH2OcR8e8j%2BRrxS9gOei6v%2BM4bp9sQRcvUr%2BosTIq1f3JvUXAaYE8O30iUF%2FIe30J%2FdkE8xuE88d6L0q4qb7Kv13xXjpuynrkj1zaCT%2F3Q74PvHxwSdw0%3D&amp;uuid=776c5b70-1424-6501-f020-3c7fc66320d6.1656769000&amp;platform=1&amp;partner=150&amp;optimusCode=10&amp;originUrl=https%3A%2F%2Fwww.dianping.com%2Fshop%2Fk4cy7BZpJGdWlhiD</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>https://www.dianping.com/ajax/json/shopDynamic/basicHideInfo?shopId=k4cy7BZpJGdWlhiD</code></p>
+<p><code>https://www.dianping.com/ajax/json/shopDynamic/shopAside?shopId=k4cy7BZpJGdWlhiD</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.dianping.com/ajax/json/shopDynamic/userCardData?userId=140908347&amp;_token=eJxVkV1rwjAUhv9Lrg9tPk5O0sIudIWhWxFG52DDC61Oi1OLLXNj7L%2FvJOpgEMiT97znI8m3OI6WIldSSlQgPlZHkQuVyIQEiL7jCFlylDlEQg2i%2FqdZMqwtjtNC5K%2FKGgJn1CwojyycFU84gwsaRo28gmfEFrHp%2BzZP09PplCyb%2Bb5t9uukPuzSbnNo0y3WX2740o7vls%2Fvm6bgkQRn7qqQqUM35VjTPLmTKlIGlIXRtUUmHckD%2BSwQWaaoOSYXc71milomgSj6Ms4gy2Qk%2B6yPxJUtBtLsMy4S9zAykDFAkiI54Fe5krFX%2BouiP2sWkGIVfkKkcxUJaGNUe0C0lx4YuykdouH%2B23B%2F3ueXvb%2BeS%2F47dnbNes%2B0Gn9W942aPLyNy656kuViILtioMtpfTsoJtWwHN2In19nAXUd&amp;uuid=776c5b70-1424-6501-f020-3c7fc66320d6.1656769000&amp;platform=1&amp;partner=150&amp;optimusCode=10&amp;originUrl=http%3A%2F%2Fwww.dianping.com%2Fshop%2Fk4cy7BZpJGdWlhiD</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a href="/images/reviews.json">评论json文件</a></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      </div>
+    </div>
+</div>
+
+<div class="post-category">
+
+    <div id="p-meta-i">
+        
+              
+                <a class="hover-with-bg" href="/categories/python/">python</a>
+              
+                <a class="hover-with-bg" href="/categories/%E7%A0%B4%E8%A7%A3/">破解</a>
+              
+                <a class="hover-with-bg" href="/categories/%E5%AD%97%E4%BD%93%E5%8A%A0%E5%AF%86/">字体加密</a>
+              
+          
+          
+              
+                <a class="hover-with-bg" href="/tags/python/"># python</a>
+              
+                <a class="hover-with-bg" href="/tags/%E5%8F%8D%E7%88%AC/"># 反爬</a>
+              
+                <a class="hover-with-bg" href="/tags/%E7%A0%B4%E8%A7%A3/"># 破解</a>
+              
+                <a class="hover-with-bg" href="/tags/%E9%80%86%E5%90%91/"># 逆向</a>
+              
+                <a class="hover-with-bg" href="/tags/%E5%AD%97%E4%BD%93%E5%8A%A0%E5%AF%86/"># 字体加密</a>
+              
+          
+    </div>
+</div>
+
+
+<div class="post-footer">
+  
+  <div class="donate text-center">
+    <span>喜欢这篇文章？为什么不考虑打赏一下作者呢？</span>
+    <div class="donate-way">
+      
+        <a href="/about/" class="donate-btn button">
+          打赏
+        </a>
+      
+    </div>
+  </div>
+  
+
+  <div class="post-copyright">
+    <p style="margin: 5px 0;">文章作者：<a href="/">saermart</a></p>
+    <p style="margin: 5px 0;">文章链接：<a href="https://saermart.github.io/2022/07/03/%E5%AD%97%E4%BD%93%E5%8A%A0%E5%AF%86-%E5%A4%A7%E4%BC%97%E7%82%B9%E8%AF%84%E5%BA%97%E9%93%BA%E8%AF%84%E8%AE%BA%E8%A7%A3%E6%9E%90%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">https://saermart.github.io/2022/07/03/%E5%AD%97%E4%BD%93%E5%8A%A0%E5%AF%86-%E5%A4%A7%E4%BC%97%E7%82%B9%E8%AF%84%E5%BA%97%E9%93%BA%E8%AF%84%E8%AE%BA%E8%A7%A3%E6%9E%90%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</a></p>
+    <p style="margin: 5px 0;">版权声明：本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处，谢谢。</p>
+  </div>
+  
+</div>
+
+    <!-- Comments -->
+    <div class="comments">
+        
+        
+    <script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+    <div id="miracle-comments">
+        <div id="miracle-vcomments"></div>
+    </div>
+    <script>
+        new Valine({
+            el: '#miracle-vcomments',
+            appId: 'ymVS2Q5j3lYw5JBnWwaQfYXu-gzGzoHsz',
+            appKey: 'HOsNh1Prm2PY2NQFwaEDRvA2',
+            placeholder: '请文明留言,对于无效留言，定期清理.',
+            path: window.location.pathname,
+            avatar: 'retro',
+            meta: ["nick","mail","link"],
+            pageSize: 100,
+            lang: 'zh-CN',
+            highlight: true,
+            avatarForce: false,
+            recordIP: true,
+            serverURLs: '',
+            enableQQ: true,
+            requiredFields: ["nick"]
+        })
+    </script>
+
+    </div>
+
 </article>
+
+
         </div>
         
 <footer class="text-center">
@@ -492,6 +643,8 @@ header .header__right .dropdown-menus .dropdown-menu {
 </footer>
 
 <div class="p-btn">
+    
+        <a class="toc-btn" id="toc-btn"><i id="i-menu"></i></a>
     
     <a href="#top" class="click-btn">
       <i id="i-up"></i>
@@ -537,8 +690,50 @@ header .header__right .dropdown-menus .dropdown-menu {
 </script>
 
 
+<script>
+    var postImg = document.querySelectorAll("article[class=page] img");
+    for (let imgi = 0; imgi < postImg.length; imgi++) {
+        postImg[imgi].onclick = () => {
+            let zoomImg = document.createElement("div");
+            zoomImg.id = "zoomImg";
+            zoomImg.innerHTML = `<div id="zoom-picture"></div>
+    <div class="poptrox-overlay"
+        style="position: fixed; left: 0px; top: 0px; z-index: 20000; width: 100%; height: 100%; text-align: center; cursor: zoom-out; opacity: 1;">
+        <div style="display:inline-block;height:100%;vertical-align:middle;"></div>
+        <div
+            style="position:absolute;left:0;top:0;width:100%;height:100%;background:#000000;opacity:0;filter:alpha(opacity=0);">
+        </div>
+        <div class="poptrox-popup"
+            style="display: inline-block; vertical-align: middle; position: relative; z-index: 1; cursor: zoom-out; min-width: 10px; min-height: 10px; width: auto; height: auto;">
+            <div class="loader" style="display: none;"></div>
+            <div class="pic" style="text-indent: 0px;"><img
+                    src="${ postImg[imgi].srcset || postImg[imgi].src }" alt="Loading..."
+                    style="vertical-align: bottom; max-width: 85vw; max-height: 85vh;"></div>
+        </div>
+    </div>`;
+            document.body.appendChild(zoomImg);
+                document.querySelector("#zoomImg").onclick = () => {
+                    document.querySelector("#zoomImg").remove();
+                }
+        }
+    }
+    
+</script>
 
 
+
+
+    <script>
+        query("#toc-btn")[0].onclick = () => {
+            if (query(".post-toc")[0].innerHTML) {
+                toggleClass(".post-toc", "display-inline");
+            }
+        }
+
+        if (!query(".post-toc")[0].innerHTML) {
+            addClass("#toc-btn","display-none");
+        }
+    </script>
 
 
 

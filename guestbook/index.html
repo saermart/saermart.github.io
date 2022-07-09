@@ -8,7 +8,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="/null">
     <link rel="icon" type="image/png" href="/img/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-    <title>分类 - 爬虫 - 流沙</title>
+    <title>留言板 - 流沙</title>
     
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     
@@ -457,25 +457,53 @@ header .header__right .dropdown-menus .dropdown-menu {
         <div class="mg-top">
             
 
-
 <article class="page">
-  <div class="archive-list">
-    <p class="h4">共计 1 篇文章</p>
-    <hr>
-    
-    
-      
-        
-        <p class="h5">2020</p>
-      
-      <a href="/2020/11/16/%E5%85%B3%E4%BA%8EPython%E7%88%AC%E8%99%AB%E7%A7%8D%E7%B1%BB%E3%80%81%E6%B3%95%E5%BE%8B%E3%80%81%E8%BD%AE%E5%AD%90%E7%9A%84%E4%B8%80%E4%BA%8C%E4%B8%89/" class="list-group-item list-group-item-action">
-        <span class="archive-post-title">关于Python爬虫种类、法律、轮子的一二三</span>
-        <time style="float: right;">11-16</time>
-      </a>
-    
-
+<div id="post-meta-m">
+        <h3>留言板</h3>
 </div>
+<div class="article-m">
+    <div class="post-toc">
+        
+    </div>
+    <div id="article" class="markdown-body textretty">
+        
+    </div>
+</div>
+
+    <!-- Comments -->
+    <div class="comments">
+        
+        
+    <script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+    <div id="miracle-comments">
+        <div id="miracle-vcomments"></div>
+    </div>
+    <script>
+        new Valine({
+            el: '#miracle-vcomments',
+            appId: 'ymVS2Q5j3lYw5JBnWwaQfYXu-gzGzoHsz',
+            appKey: 'HOsNh1Prm2PY2NQFwaEDRvA2',
+            placeholder: '请文明留言,对于无效留言，定期清理.',
+            path: window.location.pathname,
+            avatar: 'retro',
+            meta: ["nick","mail","link"],
+            pageSize: 100,
+            lang: 'zh-CN',
+            highlight: true,
+            avatarForce: false,
+            recordIP: true,
+            serverURLs: '',
+            enableQQ: true,
+            requiredFields: ["nick"]
+        })
+    </script>
+
+    </div>
+
 </article>
+
+
+
         </div>
         
 <footer class="text-center">
@@ -536,6 +564,36 @@ header .header__right .dropdown-menus .dropdown-menu {
     
 </script>
 
+
+<script>
+    var postImg = document.querySelectorAll("article[class=page] img");
+    for (let imgi = 0; imgi < postImg.length; imgi++) {
+        postImg[imgi].onclick = () => {
+            let zoomImg = document.createElement("div");
+            zoomImg.id = "zoomImg";
+            zoomImg.innerHTML = `<div id="zoom-picture"></div>
+    <div class="poptrox-overlay"
+        style="position: fixed; left: 0px; top: 0px; z-index: 20000; width: 100%; height: 100%; text-align: center; cursor: zoom-out; opacity: 1;">
+        <div style="display:inline-block;height:100%;vertical-align:middle;"></div>
+        <div
+            style="position:absolute;left:0;top:0;width:100%;height:100%;background:#000000;opacity:0;filter:alpha(opacity=0);">
+        </div>
+        <div class="poptrox-popup"
+            style="display: inline-block; vertical-align: middle; position: relative; z-index: 1; cursor: zoom-out; min-width: 10px; min-height: 10px; width: auto; height: auto;">
+            <div class="loader" style="display: none;"></div>
+            <div class="pic" style="text-indent: 0px;"><img
+                    src="${ postImg[imgi].srcset || postImg[imgi].src }" alt="Loading..."
+                    style="vertical-align: bottom; max-width: 85vw; max-height: 85vh;"></div>
+        </div>
+    </div>`;
+            document.body.appendChild(zoomImg);
+                document.querySelector("#zoomImg").onclick = () => {
+                    document.querySelector("#zoomImg").remove();
+                }
+        }
+    }
+    
+</script>
 
 
 
